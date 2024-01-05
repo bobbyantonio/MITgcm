@@ -18,7 +18,7 @@ bdPfx='build'; # build-dir prefix
 # NpOc :: number of MPI procs for Ocean component
 # Npr - NpOc - 1 :: number of MPI procs for Atmos. component
 #- default:
- Npr=3 ; NpOc=1 ;
+ Npr=9 ; NpOc=4 ;
 #Npr=25; NpOc=12;
 
 # MTH :: genmake2 option for multi-threading compilation
@@ -257,6 +257,10 @@ if test $kpr = 2 ; then
     n=`expr $n + 1`
   done
 
+  cd $curDir
+  cp input_cpl/* .
+  cp input_atm/* .
+  cp input_ocn/* .
 fi
 
 if test $kpr = 3 ; then
@@ -293,9 +297,9 @@ if test $kpr = 3 ; then
     nn=1
   done
   NpAt=`expr $Npr - 1 - $NpOc`
-  RunOpt="-np 1 ./${bdPfx}_cpl/mitgcmuv"
-  RunOpt="$RunOpt : -np $NpOc ./${bdPfx}_ocn/mitgcmuv"
-  RunOpt="$RunOpt : -np $NpAt ./${bdPfx}_atm/mitgcmuv"
+  RunOpt="-np 1 ./${bdPfx}_cpl/mitgcmuv -wdir $curDir/${bdPfx}_cpl"
+  RunOpt="$RunOpt : -np $NpOc ./${bdPfx}_ocn/mitgcmuv -wdir $curDir/${bdPfx}_ocn"
+  RunOpt="$RunOpt : -np $NpAt ./${bdPfx}_atm/mitgcmuv -wdir $curDir/${bdPfx}_atm"
 
   cd $runDir
   if test "x$MTH" != x ; then

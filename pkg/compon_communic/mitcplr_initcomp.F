@@ -5,7 +5,7 @@
 #include "CPLR_SIG.h"
 ! Arguments
       integer compind
-      character*(MAXLEN_COMP_NAME) carg
+      character*(*) carg
 ! Local
 !     ------------------------------------------------------------------
 
